@@ -15,6 +15,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(server, &ServerStuff::smbDisconnected,
             this, &MainWindow::smbDisconnectedFromServer);
     connect(ui->sendButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_send_clicked);
+
+    if (!server->tcpServer->listen(QHostAddress::Any, 6547))
+    {
+        ui->textEdit_log->append(tr("<font color=\"red\"><b>Error!</b> The port is taken by some other service.</font>"));
+        return;
+    }
+    connect(server->tcpServer, &QTcpServer::newConnection, server, &ServerStuff::newConnection);
+    ui->textEdit_log->append(tr("<font color=\"green\"><b>Server started</b>, port is openned.</font>"));
 }
 
 MainWindow::~MainWindow()
