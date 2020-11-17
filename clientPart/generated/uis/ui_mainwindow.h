@@ -29,22 +29,25 @@ public:
     QGridLayout *gridLayout_2;
     QGridLayout *gridLayout;
     QLineEdit *lineEdit;
+    QLineEdit *lineEdit_message;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_connect;
     QPushButton *pushButton_disconnect;
     QLabel *label_status;
     QTextEdit *textEdit_log;
+    QPushButton *pushButton_send;
+    QLabel *label_2;
+    QPushButton *pushButton_dialogWith;
     QLineEdit *lineEdit_2;
     QLabel *label;
-    QLineEdit *lineEdit_message;
-    QPushButton *pushButton_send;
-    QPushButton *pushButton_dialogWith;
+    QPushButton *pushButtonGetUsers;
+    QTextEdit *textEdit;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(806, 505);
+        MainWindow->resize(806, 471);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         gridLayout_2 = new QGridLayout(centralWidget);
@@ -58,6 +61,11 @@ public:
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
 
         gridLayout->addWidget(lineEdit, 3, 1, 1, 1);
+
+        lineEdit_message = new QLineEdit(centralWidget);
+        lineEdit_message->setObjectName(QString::fromUtf8("lineEdit_message"));
+
+        gridLayout->addWidget(lineEdit_message, 6, 1, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -97,7 +105,23 @@ public:
         textEdit_log = new QTextEdit(centralWidget);
         textEdit_log->setObjectName(QString::fromUtf8("textEdit_log"));
 
-        gridLayout->addWidget(textEdit_log, 7, 0, 1, 2);
+        gridLayout->addWidget(textEdit_log, 8, 0, 1, 2);
+
+        pushButton_send = new QPushButton(centralWidget);
+        pushButton_send->setObjectName(QString::fromUtf8("pushButton_send"));
+        pushButton_send->setFlat(false);
+
+        gridLayout->addWidget(pushButton_send, 6, 0, 1, 1);
+
+        label_2 = new QLabel(centralWidget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        gridLayout->addWidget(label_2, 7, 0, 1, 1);
+
+        pushButton_dialogWith = new QPushButton(centralWidget);
+        pushButton_dialogWith->setObjectName(QString::fromUtf8("pushButton_dialogWith"));
+
+        gridLayout->addWidget(pushButton_dialogWith, 5, 0, 1, 1);
 
         lineEdit_2 = new QLineEdit(centralWidget);
         lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
@@ -109,27 +133,27 @@ public:
 
         gridLayout->addWidget(label, 3, 0, 1, 1);
 
-        lineEdit_message = new QLineEdit(centralWidget);
-        lineEdit_message->setObjectName(QString::fromUtf8("lineEdit_message"));
 
-        gridLayout->addWidget(lineEdit_message, 6, 1, 1, 1);
+        gridLayout_2->addLayout(gridLayout, 2, 0, 1, 1);
 
-        pushButton_send = new QPushButton(centralWidget);
-        pushButton_send->setObjectName(QString::fromUtf8("pushButton_send"));
+        pushButtonGetUsers = new QPushButton(centralWidget);
+        pushButtonGetUsers->setObjectName(QString::fromUtf8("pushButtonGetUsers"));
 
-        gridLayout->addWidget(pushButton_send, 6, 0, 1, 1);
+        gridLayout_2->addWidget(pushButtonGetUsers, 1, 1, 1, 1);
 
-        pushButton_dialogWith = new QPushButton(centralWidget);
-        pushButton_dialogWith->setObjectName(QString::fromUtf8("pushButton_dialogWith"));
+        textEdit = new QTextEdit(centralWidget);
+        textEdit->setObjectName(QString::fromUtf8("textEdit"));
+        textEdit->setEnabled(true);
+        textEdit->setReadOnly(true);
 
-        gridLayout->addWidget(pushButton_dialogWith, 5, 0, 1, 1);
-
-
-        gridLayout_2->addLayout(gridLayout, 0, 0, 1, 1);
+        gridLayout_2->addWidget(textEdit, 2, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
+
+        pushButton_send->setDefault(false);
+
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -141,10 +165,12 @@ public:
         pushButton_connect->setText(QApplication::translate("MainWindow", "Connect to server", nullptr));
         pushButton_disconnect->setText(QApplication::translate("MainWindow", "Disconnect from server", nullptr));
         label_status->setText(QApplication::translate("MainWindow", "status", nullptr));
+        pushButton_send->setText(QApplication::translate("MainWindow", "Send this:", nullptr));
+        label_2->setText(QApplication::translate("MainWindow", "not selected", nullptr));
+        pushButton_dialogWith->setText(QApplication::translate("MainWindow", "connect to:", nullptr));
         lineEdit_2->setInputMask(QString());
         label->setText(QApplication::translate("MainWindow", "your name:", nullptr));
-        pushButton_send->setText(QApplication::translate("MainWindow", "Send this:", nullptr));
-        pushButton_dialogWith->setText(QApplication::translate("MainWindow", "connect to:", nullptr));
+        pushButtonGetUsers->setText(QApplication::translate("MainWindow", "Get All users", nullptr));
     } // retranslateUi
 
 };

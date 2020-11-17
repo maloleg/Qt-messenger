@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     setStatus(client->getStatus());
 
-    connect(client, &ClientStuff::hasReadSome, this, &MainWindow::receivedSomething);
+    connect(client, &ClientStuff::hasReadSome, this, &MainWindow::receivedJson);
     connect(client, &ClientStuff::statusChanged, this, &MainWindow::setStatus);
 
     connect(ui->pushButton_dialogWith, &QPushButton::clicked, this, &MainWindow::on_pushButton_enterDialog_clicked);
@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(client->tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(gotError(QAbstractSocket::SocketError)));
 
-    connect(ui->pushButtonGetUsers, &QPushButton::clicked, this, getUsers());
+    connect(ui->pushButtonGetUsers, &QPushButton::clicked, this, &MainWindow::getUsers);
 }
 
 MainWindow::~MainWindow()
@@ -85,9 +85,22 @@ void MainWindow::setStatus(bool newStatus)
     }
 }
 
-void MainWindow::receivedSomething(QString msg)
+void MainWindow::receivedJson(QJsonObject message)
 {
-    ui->textEdit_log->append(msg);
+    // ui->textEdit_log->append(msg);
+    qDebug() << "JSON RECIEVED: " << message;
+    if  (message["type"].toString() == "message"){
+        ui->textEdit_log->append(message["name"].toString() + ": " + message["text"].toString());
+    }
+    else if (message["type"].toString() == "FromServer"){
+        ui->textEdit_log->append(tr("<font color=\"red\">FROM SERVER:</font>") + message["text"].toString());
+    }
+    else if (message["type"].toString() == "Close Connection"){
+        ui->textEdit_log->append(tr("<font color=\"red\">CONNECTION CLOSED:</font>"));
+    }
+    else if (message["type"].toString() == "Dialog Entered"){
+        ui->label_2->setText(message["name"].toString());
+    }
 }
 
 void MainWindow::gotError(QAbstractSocket::SocketError err)
@@ -134,6 +147,8 @@ void MainWindow::on_pushButton_send_clicked()
     message["dialogWith"] = ui->lineEdit_2->text();
     message["text"] = ui->lineEdit_message->text();
 
+    ui->textEdit_log->append("you: " + ui->lineEdit_message->text());
+
     qDebug() << message;
 
     out << quint16(0) << QJsonDocument(message).toJson(QJsonDocument::Compact);
@@ -170,12 +185,13 @@ void MainWindow::on_pushButton_disconnect_clicked()
     client->closeConnection();
 }
 
-void getUsers(){
+void MainWindow::getUsers(){
     QByteArray arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
  
     QJsonObject message;
     message["type"] = "getUsers";
+    message["name"] = ui->lineEdit->text();
     // message["name"] = ui->lineEdit->text();
     // message["dialogWith"] = ui->lineEdit_2->text();
     // message["friend"] = withWho;   

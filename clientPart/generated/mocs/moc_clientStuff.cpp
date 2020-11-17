@@ -35,7 +35,7 @@ QT_MOC_LITERAL(0, 0, 11), // "ClientStuff"
 QT_MOC_LITERAL(1, 12, 13), // "statusChanged"
 QT_MOC_LITERAL(2, 26, 0), // ""
 QT_MOC_LITERAL(3, 27, 11), // "hasReadSome"
-QT_MOC_LITERAL(4, 39, 3), // "msg"
+QT_MOC_LITERAL(4, 39, 3), // "doc"
 QT_MOC_LITERAL(5, 43, 15), // "closeConnection"
 QT_MOC_LITERAL(6, 59, 12), // "connect2host"
 QT_MOC_LITERAL(7, 72, 9), // "readyRead"
@@ -44,7 +44,7 @@ QT_MOC_LITERAL(9, 92, 17) // "connectionTimeout"
 
     },
     "ClientStuff\0statusChanged\0\0hasReadSome\0"
-    "msg\0closeConnection\0connect2host\0"
+    "doc\0closeConnection\0connect2host\0"
     "readyRead\0connected\0connectionTimeout"
 };
 #undef QT_MOC_LITERAL
@@ -75,7 +75,7 @@ static const uint qt_meta_data_ClientStuff[] = {
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool,    2,
-    QMetaType::Void, QMetaType::QString,    4,
+    QMetaType::Void, QMetaType::QJsonObject,    4,
 
  // slots: parameters
     QMetaType::Void,
@@ -94,7 +94,7 @@ void ClientStuff::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->statusChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 1: _t->hasReadSome((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->hasReadSome((*reinterpret_cast< QJsonObject(*)>(_a[1]))); break;
         case 2: _t->closeConnection(); break;
         case 3: _t->connect2host(); break;
         case 4: _t->readyRead(); break;
@@ -112,7 +112,7 @@ void ClientStuff::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
             }
         }
         {
-            using _t = void (ClientStuff::*)(QString );
+            using _t = void (ClientStuff::*)(QJsonObject );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&ClientStuff::hasReadSome)) {
                 *result = 1;
                 return;
@@ -169,7 +169,7 @@ void ClientStuff::statusChanged(bool _t1)
 }
 
 // SIGNAL 1
-void ClientStuff::hasReadSome(QString _t1)
+void ClientStuff::hasReadSome(QJsonObject _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);

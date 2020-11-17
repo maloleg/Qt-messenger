@@ -7,6 +7,8 @@
 #include <QTimer>
 #include <QHostAddress>
 #include <QNetworkInterface>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 class ClientStuff : public QObject
 {
@@ -26,7 +28,7 @@ public slots:
 
 signals:
     void statusChanged(bool);
-    void hasReadSome(QString msg);
+    void hasReadSome(QJsonObject doc);
 
 private slots:
     void readyRead();

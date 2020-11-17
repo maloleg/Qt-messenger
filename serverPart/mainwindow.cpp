@@ -41,10 +41,13 @@ void MainWindow::on_pushButton_stopServer_clicked()
         disconnect(server->tcpServer, &QTcpServer::newConnection, server, &ServerStuff::newConnection);
 
         QList<QTcpSocket *> clients = server->getClients();
+        QJsonObject doc;
+        doc["type"] = "Close Connection";
         for(int i = 0; i < clients.count(); i++)
         {
             //server->sendToClient(clients.at(i), "Connection closed");
-            server->sendToClient(clients.at(i), "0");
+
+            server->sendToClient(clients.at(i), doc);
         }
 
         server->tcpServer->close();
@@ -77,10 +80,17 @@ void MainWindow::on_pushButton_testConn_clicked()
 }
 
 void MainWindow::on_pushButton_send_clicked(){
-    if (server->sendToClient(server->getClients()[0], ui->lineEdit->text()) == -1)
-        {
-            qDebug() << "Some error occured";
-        }
+
+    QJsonObject message;
+    message["type"] = "FromServer";
+    message["text"] = ui->lineEdit->text();
+
+    for (int i = 0; i < server->getClients().size(); i++){
+        if (server->sendToClient(server->getClients()[i], message) == -1)
+            {
+                qDebug() << "Some error occured";
+            }
+    }
 }
 
 void MainWindow::smbConnectedToServer()

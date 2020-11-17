@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 #include "clientStuff.h"
-#include <QJsonObject>
-#include <QJsonDocument>
+
 
 namespace Ui { class MainWindow; }
 
@@ -18,7 +17,7 @@ public:
     
 public slots:
     void setStatus(bool newStatus);
-    void receivedSomething(QString msg);
+    void receivedJson(QJsonObject message);
     void gotError(QAbstractSocket::SocketError err);
 
 private slots:

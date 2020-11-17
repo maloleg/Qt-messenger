@@ -22,20 +22,38 @@ void ServerStuff::newConnection()
 
     clients << clientSocket;
 
-    sendToClient(clientSocket, "Reply: connection established");
+    QJsonObject doc;
+
+    doc["type"] = "FromServer";
+    doc["text"] = "connection established";
+
+    sendToClient(clientSocket, doc);
 }
 
 void ServerStuff::slot_connectByNames(QString name1, QString name2){
     qDebug() << names;
     qDebug() << clients;
-    pairs[name1] = clients[names.indexOf(name2)];
-    pairs[name2] = clients[names.indexOf(name1)];
+    pairs[name1] = clients[names.indexOf(name1)];
+    pairs[name2] = clients[names.indexOf(name2)];
 
+    QJsonObject doc;
+    doc["type"] = "Dialog Entered";
+    doc["name"] = name2;
+
+    if (sendToClient(pairs[name1], doc) == -1){
+        qDebug() << "Some error occured";
+    }
+
+    doc["name"] = name1;
+
+    if (sendToClient(pairs[name2], doc) == -1){
+        qDebug() << "Some error occured";
+    }
     
 }
 
 bool ServerStuff::isConnected(QString name1, QString name2){
-    return (pairs[name1] == clients[names.indexOf(name2)]);
+    return (pairs[name1] == clients[names.indexOf(name1)]) && (pairs[name2] == clients[names.indexOf(name2)]);
 }
 
 void ServerStuff::readClient()
@@ -65,13 +83,14 @@ void ServerStuff::readClient()
             // we successfully read some data
             // we now need to make sure it's in fact a valid JSON
             QJsonParseError parseError;
+            qDebug() << byteMessage;
             // we try to create a json document with the data we received
             const QJsonDocument jsonMessage = QJsonDocument::fromJson(byteMessage, &parseError);
             if (parseError.error == QJsonParseError::NoError) {
                 // if the data was indeed valid JSON
                 if (jsonMessage.isObject()){ // and is a JSON object
                     qDebug() << "jsonReceived  " << jsonMessage.object();
-                    emit jsonReceived(jsonMessage.object()); // send the message to the central server
+                    emit jsonReceived(jsonMessage.object(), clientSocket); // send the message to the central server
                 }
                 else
                     emit gotNewMesssage("Invalid message: " + QString::fromUtf8(byteMessage)); //notify the server of invalid data
@@ -101,16 +120,18 @@ void ServerStuff::readClient()
     }
 }
 
-void ServerStuff::handleJson(QJsonObject message){
+void ServerStuff::handleJson(QJsonObject message, QTcpSocket* clientSocket){
     // QVariantMap m = message.toVariantMap();
     // qDebug() << message["Login"].toString();
     // qDebug() << m.value("type");
     emit gotNewMesssage("WHY");
+    QJsonObject temp;
 
     if (message["type"].toString() == "Login"){
         // qDebug() << message[""].toString();
         emit gotNewMesssage(message["name"].toString() + " connected");
         names << message["name"].toString();
+        pairs[message["name"].toString()] = clientSocket;
         // emit gotNewMesssage(message["friend"].toString());
     }
     else if (message["type"].toString() == "Enter"){
@@ -135,7 +156,7 @@ void ServerStuff::handleJson(QJsonObject message){
                     // qDebug() << names << names[i] << message["dialogWith"].toString();
                     qDebug() << pairs;
                     emit gotNewMesssage(message["name"].toString() + " sending [" + message["text"].toString() + "] to " + message["dialogWith"].toString());
-                    if (sendToClient(pairs[message["name"].toString()], QString(message["name"].toString() + ":" + message["text"].toString())) == -1){
+                    if (sendToClient(pairs[message["dialogWith"].toString()], message) == -1){
                         qDebug() << "Some error occured";
                         // return;
                     }
@@ -148,6 +169,16 @@ void ServerStuff::handleJson(QJsonObject message){
             
         }
         else emit gotNewMesssage("No such user");
+    }
+    else if (message["type"].toString() == "getUsers"){
+        temp["type"] = "getUsers";
+
+        if (names.contains(message["name"].toString())){
+            for (int i = 0; i < names.size(); i++){
+                if (names[i] != message["name"].toString()) temp[QStringLiteral("user%1").arg(i)] = names[i];
+            }
+            sendToClient(pairs[message["name"].toString()], temp);
+        }
     }
 }
 
@@ -169,7 +200,7 @@ qint64 ServerStuff::sendToClient(QTcpSocket* socket, QJsonObject doc)
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
     //out.setVersion(QDataStream::Qt_5_10);
     //out << quint16(0) << QTime::currentTime() << str;
-    out << quint16(0) << doc;
+    out << quint16(0) << QJsonDocument(doc).toJson(QJsonDocument::Compact);
     qDebug() << doc;
 
     out.device()->seek(0);

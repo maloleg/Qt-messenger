@@ -46,9 +46,10 @@ void ClientStuff::connected()
 
 bool ClientStuff::getStatus() {return status;}
 
-void ClientStuff::readyRead()
-{
+void ClientStuff::readyRead(){
     QDataStream in(tcpSocket);
+    QByteArray byteMessage;
+    m_nNextBlockSize = 0;
     //in.setVersion(QDataStream::Qt_5_10);
     for (;;)
     {
@@ -60,15 +61,18 @@ void ClientStuff::readyRead()
 
         if (tcpSocket->bytesAvailable() < m_nNextBlockSize) { break; }
 
-        QString str; in >> str;
+        QJsonDocument str; in >> byteMessage;
 
-        if (str == "0")
-        {
-            str = "Connection closed";
-            closeConnection();
-        }
+        qDebug() << "byteMessage: " << byteMessage << "  " << m_nNextBlockSize;
 
-        emit hasReadSome(str);
+        // if (str == "0")
+        // {
+        //     str = "Connection closed";
+        //     closeConnection();
+        // }
+        QJsonParseError parseError;
+
+        emit hasReadSome(QJsonDocument::fromJson(byteMessage, &parseError).object());
         m_nNextBlockSize = 0;
     }
 }

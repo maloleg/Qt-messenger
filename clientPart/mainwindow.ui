@@ -151,14 +151,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QTextEdit" name="textEdit">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
+     <widget class="QListWidget" name="listWidget"/>
     </item>
    </layout>
   </widget>

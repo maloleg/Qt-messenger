@@ -22,14 +22,14 @@ public slots:
     virtual void newConnection();
     void readClient();
     void gotDisconnection();
-    qint64 sendToClient(QTcpSocket *socket, const QString &str);
-    void handleJson(QJsonObject message);
+    qint64 sendToClient(QTcpSocket *socket, const QJsonObject message);
+    void handleJson(QJsonObject message, QTcpSocket*);
     void slot_connectByNames(QString name1, QString name2);
 
 signals:
     void gotNewMesssage(QString msg);
     void smbDisconnected();
-    void jsonReceived(QJsonObject);
+    void jsonReceived(QJsonObject, QTcpSocket*);
     void connectByNames(QString name1, QString name2);
 
 private:
