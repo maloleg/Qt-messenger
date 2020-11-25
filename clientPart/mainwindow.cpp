@@ -5,6 +5,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
+    // qDebug() << QCameraImageCapture::
+
     ui->pushButton_disconnect->setVisible(false);
 
     camera = new QCamera;
@@ -12,18 +14,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     timer = new QTimer;
 
-    timer->setInterval(50);
-    
-    QCameraViewfinderSettings viewfinderSettings;
-    viewfinderSettings.setResolution(160, 120);
-
-    camera->setViewfinder(viewfinder);
-    camera->setViewfinderSettings(viewfinderSettings);
-    // viewfinder->show();
-
     imageCapture = new QCameraImageCapture(camera);
 
-    camera->start();
+    timer->setInterval(50);
+    
+    
+
+    // qDebug() << camera->isCaptureModeSupported()
 
     connect (timer, &QTimer::timeout, this, &MainWindow::SendFrame);
 
@@ -267,8 +264,20 @@ void MainWindow::getImage(int id, const QImage& img){
 
     QByteArray ba;
     QBuffer bu(&ba);
-    img.save(&bu, "PNG");
+    
+    img.save(&bu, "JPEG", quality);
+    // img.save("temp", "JPEG", 0);
+    qDebug() << "size" << bu.data().size();
+
+    // QByteArray da = qCompress(ba, 5);
+
+    // qDebug() << "new" << bu.size() << da.size();
+    // qDebug()
     QString imgBase64 = ba.toBase64();
+
+    // qDebug() << imgBase64.size();
+    // QString newSize = qCompress(imgBase64);
+    // qDebug() << "new" << newSize.size();
 
     QJsonObject message;
     message["type"] = "image";
@@ -300,11 +309,80 @@ void MainWindow::getImage(int id, const QImage& img){
 void MainWindow::on_pushButton_sendPicture_clicked(){
     // 
     // QThread::sleep(0.5);
-    timer->start();
-    
+    if (!timer->isActive()) {
+        timer->start();
+        // QCameraViewfinderSettings viewfinderSettings;
+        viewfinderSettings.setResolution(320, 240);
+
+        camera->setViewfinder(viewfinder);
+        camera->setViewfinderSettings(viewfinderSettings);
+        // viewfinder->show();
+
+        
+
+        imageCapture->setCaptureDestination(QCameraImageCapture::CaptureToBuffer);
+
+        camera->start();
+    }
+    else{
+        timer->stop();
+        camera->stop();
+    } 
 }
 
+void MainWindow::on_pushButton_r1_clicked(){
+    viewfinderSettings.setResolution(1280, 720);
+
+    camera->setViewfinder(viewfinder);
+    // camera->setViewfinderSettings(viewfinderSettings);
+}
+
+void MainWindow::on_pushButton_r2_clicked(){
+    viewfinderSettings.setResolution(960, 540);
+
+    // camera->setViewfinder(viewfinder);
+    camera->setViewfinderSettings(viewfinderSettings);
+}
+
+void MainWindow::on_pushButton_r3_clicked(){
+    viewfinderSettings.setResolution(640, 480);
+
+    // camera->setViewfinder(viewfinder);
+    camera->setViewfinderSettings(viewfinderSettings);
+}
+
+void MainWindow::on_pushButton_r4_clicked(){
+    viewfinderSettings.setResolution(640, 360);
+
+    // camera->setViewfinder(viewfinder);
+    camera->setViewfinderSettings(viewfinderSettings);
+}
+
+void MainWindow::on_pushButton_r5_clicked(){
+    viewfinderSettings.setResolution(320, 240);
+
+    // camera->setViewfinder(viewfinder);
+    camera->setViewfinderSettings(viewfinderSettings);
+}
+
+void MainWindow::on_pushButton_r6_clicked(){
+    // Q
+    viewfinderSettings.setResolution(160, 120);
+
+    // camera->setViewfinder(viewfinder);
+    camera->setViewfinderSettings(viewfinderSettings);
+}
+
+void MainWindow::on_pushButton_apply_clicked(){
+    quality = ui->lineEdit_3->text().toInt();
+}
 void MainWindow::SendFrame(){
-    
-    if (imageCapture->isReadyForCapture())  imageCapture->capture();
+    // qDebug() << "snap!";
+    if (imageCapture->isReadyForCapture()) {
+        camera->searchAndLock();
+       // cap->capture();
+       
+        imageCapture->capture("temp");
+        camera->unlock();
+    }
 }

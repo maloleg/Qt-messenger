@@ -76,13 +76,21 @@ void ServerStuff::readClient()
             in >> m_nNextBlockSize;
         }
 
+        // if (clientSocket->bytesAvailable() > 20000000){
+        //         qDebug() << "flushing socket...";
+        //         clientSocket->flush();
+        //         continue;
+        //     }
+
+
+
         if (clientSocket->bytesAvailable() < m_nNextBlockSize) { break; }
         // message;
         // qDebug() << clientSocket->bytesAvailable();
         // if (clientSocket->bytesAvailable() > )
          while (clientSocket->bytesAvailable() > 0){
             qDebug() << "bytes to read: " << clientSocket->bytesAvailable() <<  m_nNextBlockSize << byteMessage.size();
-            in >> byteMessage;
+            /*(if (clientSocket->waitForReadyRead()) */in >> byteMessage;
             // if (in.commitTransaction()){}
 
          }
@@ -254,7 +262,7 @@ qint64 ServerStuff::sendToClient(QTcpSocket* socket, QJsonObject doc)
     //out.setVersion(QDataStream::Qt_5_10);
     //out << quint16(0) << QTime::currentTime() << str;
     out << quint16(0) << QJsonDocument(doc).toJson(QJsonDocument::Compact);
-    qDebug() << "message with size" << QJsonDocument(doc).toJson(QJsonDocument::Compact).size() << "was sent to client";
+    qDebug() << "message with size " << QJsonDocument(doc).toJson(QJsonDocument::Compact).size() << "was sent to client";
 
     out.device()->seek(0);
     out << quint16(arrBlock.size() - sizeof(quint16));

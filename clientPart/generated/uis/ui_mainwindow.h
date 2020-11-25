@@ -10,6 +10,7 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
@@ -26,49 +27,137 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionchange_resolution;
     QWidget *centralWidget;
     QGridLayout *gridLayout_2;
+    QPushButton *pushButton_r2;
+    QPushButton *pushButton_r6;
+    QLabel *img_label;
+    QPushButton *pushButton_sendPicture;
+    QPushButton *pushButton_r1;
+    QPushButton *pushButton_r4;
+    QListWidget *listWidget;
+    QPushButton *pushButton_r5;
+    QPushButton *pushButton_r3;
     QGridLayout *gridLayout;
-    QLineEdit *lineEdit;
+    QPushButton *pushButton_send;
     QLineEdit *lineEdit_message;
+    QTextEdit *textEdit_log;
+    QLineEdit *lineEdit_3;
+    QLineEdit *lineEdit;
+    QLabel *label_2;
+    QPushButton *pushButton_dialogWith;
+    QLabel *label_3;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_connect;
     QPushButton *pushButton_disconnect;
     QLabel *label_status;
-    QTextEdit *textEdit_log;
-    QPushButton *pushButton_send;
-    QLabel *label_2;
-    QPushButton *pushButton_dialogWith;
     QLineEdit *lineEdit_2;
     QLabel *label;
-    QListWidget *listWidget;
-    QPushButton *pushButton_sendPicture;
+    QPushButton *pushButton_apply;
     QPushButton *pushButtonGetUsers;
-    QLabel *img_label;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(881, 471);
+        MainWindow->resize(755, 448);
+        actionchange_resolution = new QAction(MainWindow);
+        actionchange_resolution->setObjectName(QString::fromUtf8("actionchange_resolution"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         gridLayout_2 = new QGridLayout(centralWidget);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        pushButton_r2 = new QPushButton(centralWidget);
+        pushButton_r2->setObjectName(QString::fromUtf8("pushButton_r2"));
+
+        gridLayout_2->addWidget(pushButton_r2, 12, 1, 1, 1);
+
+        pushButton_r6 = new QPushButton(centralWidget);
+        pushButton_r6->setObjectName(QString::fromUtf8("pushButton_r6"));
+
+        gridLayout_2->addWidget(pushButton_r6, 14, 1, 1, 1);
+
+        img_label = new QLabel(centralWidget);
+        img_label->setObjectName(QString::fromUtf8("img_label"));
+
+        gridLayout_2->addWidget(img_label, 1, 2, 1, 1);
+
+        pushButton_sendPicture = new QPushButton(centralWidget);
+        pushButton_sendPicture->setObjectName(QString::fromUtf8("pushButton_sendPicture"));
+
+        gridLayout_2->addWidget(pushButton_sendPicture, 0, 0, 1, 1);
+
+        pushButton_r1 = new QPushButton(centralWidget);
+        pushButton_r1->setObjectName(QString::fromUtf8("pushButton_r1"));
+
+        gridLayout_2->addWidget(pushButton_r1, 12, 0, 1, 1);
+
+        pushButton_r4 = new QPushButton(centralWidget);
+        pushButton_r4->setObjectName(QString::fromUtf8("pushButton_r4"));
+
+        gridLayout_2->addWidget(pushButton_r4, 13, 1, 1, 1);
+
+        listWidget = new QListWidget(centralWidget);
+        listWidget->setObjectName(QString::fromUtf8("listWidget"));
+
+        gridLayout_2->addWidget(listWidget, 2, 1, 1, 1);
+
+        pushButton_r5 = new QPushButton(centralWidget);
+        pushButton_r5->setObjectName(QString::fromUtf8("pushButton_r5"));
+
+        gridLayout_2->addWidget(pushButton_r5, 14, 0, 1, 1);
+
+        pushButton_r3 = new QPushButton(centralWidget);
+        pushButton_r3->setObjectName(QString::fromUtf8("pushButton_r3"));
+
+        gridLayout_2->addWidget(pushButton_r3, 13, 0, 1, 1);
+
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        lineEdit = new QLineEdit(centralWidget);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        pushButton_send = new QPushButton(centralWidget);
+        pushButton_send->setObjectName(QString::fromUtf8("pushButton_send"));
+        pushButton_send->setFlat(false);
 
-        gridLayout->addWidget(lineEdit, 3, 1, 1, 1);
+        gridLayout->addWidget(pushButton_send, 6, 0, 1, 1);
 
         lineEdit_message = new QLineEdit(centralWidget);
         lineEdit_message->setObjectName(QString::fromUtf8("lineEdit_message"));
 
         gridLayout->addWidget(lineEdit_message, 6, 1, 1, 1);
+
+        textEdit_log = new QTextEdit(centralWidget);
+        textEdit_log->setObjectName(QString::fromUtf8("textEdit_log"));
+
+        gridLayout->addWidget(textEdit_log, 7, 1, 1, 1);
+
+        lineEdit_3 = new QLineEdit(centralWidget);
+        lineEdit_3->setObjectName(QString::fromUtf8("lineEdit_3"));
+
+        gridLayout->addWidget(lineEdit_3, 8, 1, 1, 1);
+
+        lineEdit = new QLineEdit(centralWidget);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+
+        gridLayout->addWidget(lineEdit, 3, 1, 1, 1);
+
+        label_2 = new QLabel(centralWidget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        gridLayout->addWidget(label_2, 7, 0, 1, 1);
+
+        pushButton_dialogWith = new QPushButton(centralWidget);
+        pushButton_dialogWith->setObjectName(QString::fromUtf8("pushButton_dialogWith"));
+
+        gridLayout->addWidget(pushButton_dialogWith, 5, 0, 1, 1);
+
+        label_3 = new QLabel(centralWidget);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+
+        gridLayout->addWidget(label_3, 8, 0, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -105,27 +194,6 @@ public:
 
         gridLayout->addLayout(horizontalLayout_2, 0, 0, 1, 2);
 
-        textEdit_log = new QTextEdit(centralWidget);
-        textEdit_log->setObjectName(QString::fromUtf8("textEdit_log"));
-
-        gridLayout->addWidget(textEdit_log, 8, 0, 1, 2);
-
-        pushButton_send = new QPushButton(centralWidget);
-        pushButton_send->setObjectName(QString::fromUtf8("pushButton_send"));
-        pushButton_send->setFlat(false);
-
-        gridLayout->addWidget(pushButton_send, 6, 0, 1, 1);
-
-        label_2 = new QLabel(centralWidget);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-
-        gridLayout->addWidget(label_2, 7, 0, 1, 1);
-
-        pushButton_dialogWith = new QPushButton(centralWidget);
-        pushButton_dialogWith->setObjectName(QString::fromUtf8("pushButton_dialogWith"));
-
-        gridLayout->addWidget(pushButton_dialogWith, 5, 0, 1, 1);
-
         lineEdit_2 = new QLineEdit(centralWidget);
         lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
 
@@ -136,28 +204,18 @@ public:
 
         gridLayout->addWidget(label, 3, 0, 1, 1);
 
+        pushButton_apply = new QPushButton(centralWidget);
+        pushButton_apply->setObjectName(QString::fromUtf8("pushButton_apply"));
 
-        gridLayout_2->addLayout(gridLayout, 3, 0, 1, 1);
+        gridLayout->addWidget(pushButton_apply, 8, 2, 1, 1);
 
-        listWidget = new QListWidget(centralWidget);
-        listWidget->setObjectName(QString::fromUtf8("listWidget"));
 
-        gridLayout_2->addWidget(listWidget, 3, 1, 1, 1);
-
-        pushButton_sendPicture = new QPushButton(centralWidget);
-        pushButton_sendPicture->setObjectName(QString::fromUtf8("pushButton_sendPicture"));
-
-        gridLayout_2->addWidget(pushButton_sendPicture, 1, 0, 1, 1);
+        gridLayout_2->addLayout(gridLayout, 2, 0, 1, 1);
 
         pushButtonGetUsers = new QPushButton(centralWidget);
         pushButtonGetUsers->setObjectName(QString::fromUtf8("pushButtonGetUsers"));
 
-        gridLayout_2->addWidget(pushButtonGetUsers, 1, 1, 1, 1);
-
-        img_label = new QLabel(centralWidget);
-        img_label->setObjectName(QString::fromUtf8("img_label"));
-
-        gridLayout_2->addWidget(img_label, 4, 1, 1, 1);
+        gridLayout_2->addWidget(pushButtonGetUsers, 0, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
 
@@ -172,18 +230,28 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Client", nullptr));
+        actionchange_resolution->setText(QApplication::translate("MainWindow", "change resolution", nullptr));
+        pushButton_r2->setText(QApplication::translate("MainWindow", "960x540", nullptr));
+        pushButton_r6->setText(QApplication::translate("MainWindow", "160x120", nullptr));
+        img_label->setText(QString());
+        pushButton_sendPicture->setText(QApplication::translate("MainWindow", "SendPicture", nullptr));
+        pushButton_r1->setText(QApplication::translate("MainWindow", "1280x720", nullptr));
+        pushButton_r4->setText(QApplication::translate("MainWindow", "640x360", nullptr));
+        pushButton_r5->setText(QApplication::translate("MainWindow", "320x240", nullptr));
+        pushButton_r3->setText(QApplication::translate("MainWindow", "640x480", nullptr));
+        pushButton_send->setText(QApplication::translate("MainWindow", "Send this:", nullptr));
+        lineEdit_3->setText(QApplication::translate("MainWindow", "25", nullptr));
         lineEdit->setInputMask(QString());
+        label_2->setText(QApplication::translate("MainWindow", "not selected", nullptr));
+        pushButton_dialogWith->setText(QApplication::translate("MainWindow", "connect to:", nullptr));
+        label_3->setText(QApplication::translate("MainWindow", "image quality (0-100)", nullptr));
         pushButton_connect->setText(QApplication::translate("MainWindow", "Connect to server", nullptr));
         pushButton_disconnect->setText(QApplication::translate("MainWindow", "Disconnect from server", nullptr));
         label_status->setText(QApplication::translate("MainWindow", "status", nullptr));
-        pushButton_send->setText(QApplication::translate("MainWindow", "Send this:", nullptr));
-        label_2->setText(QApplication::translate("MainWindow", "not selected", nullptr));
-        pushButton_dialogWith->setText(QApplication::translate("MainWindow", "connect to:", nullptr));
         lineEdit_2->setInputMask(QString());
         label->setText(QApplication::translate("MainWindow", "your name:", nullptr));
-        pushButton_sendPicture->setText(QApplication::translate("MainWindow", "SendPicture", nullptr));
+        pushButton_apply->setText(QApplication::translate("MainWindow", "apply", nullptr));
         pushButtonGetUsers->setText(QApplication::translate("MainWindow", "Get All users", nullptr));
-        img_label->setText(QString());
     } // retranslateUi
 
 };

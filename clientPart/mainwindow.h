@@ -29,6 +29,13 @@ private slots:
     void on_pushButton_disconnect_clicked();
     void on_pushButton_enterDialog_clicked();
     void on_pushButton_sendPicture_clicked();
+    void on_pushButton_r1_clicked();
+    void on_pushButton_r2_clicked();
+    void on_pushButton_r3_clicked();
+    void on_pushButton_r4_clicked();
+    void on_pushButton_r5_clicked();
+    void on_pushButton_r6_clicked();
+    void on_pushButton_apply_clicked();
     void getUsers();
     void getImage(int id, const QImage& image);
     void SendFrame();
@@ -42,6 +49,8 @@ private:
     QCameraViewfinder* viewfinder;
     QCameraImageCapture* imageCapture;
     QTimer* timer;
+    int quality = 25;
+    QCameraViewfinderSettings viewfinderSettings;
 };
 
 #endif // MAINWINDOW_H

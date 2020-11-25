@@ -97,7 +97,12 @@ void ClientStuff::readyRead(){
         // if (clientSocket->bytesAvailable() > )
          while (tcpSocket->bytesAvailable() > 0){
             qDebug() << "bytes to read: " << tcpSocket->bytesAvailable() <<  m_nNextBlockSize << byteMessage.size();
-            in >> byteMessage;
+            // if (tcpSocket->bytesAvailable() > 20000000){
+            //     qDebug() << "flushing socket...";
+            //     // tcpSocket->flush();
+            //     continue;
+            // }
+            /*(if (clientSocket->waitForReadyRead()) */ in >> byteMessage;
             // if (in.commitTransaction()){}
 
          }
