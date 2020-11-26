@@ -32,7 +32,6 @@ public:
     QGridLayout *gridLayout_2;
     QPushButton *pushButton_r2;
     QPushButton *pushButton_r6;
-    QLabel *img_label;
     QPushButton *pushButton_sendPicture;
     QPushButton *pushButton_r1;
     QPushButton *pushButton_r4;
@@ -56,6 +55,7 @@ public:
     QLabel *label;
     QPushButton *pushButton_apply;
     QPushButton *pushButtonGetUsers;
+    QLabel *img_label;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -79,11 +79,6 @@ public:
         pushButton_r6->setObjectName(QString::fromUtf8("pushButton_r6"));
 
         gridLayout_2->addWidget(pushButton_r6, 14, 1, 1, 1);
-
-        img_label = new QLabel(centralWidget);
-        img_label->setObjectName(QString::fromUtf8("img_label"));
-
-        gridLayout_2->addWidget(img_label, 1, 2, 1, 1);
 
         pushButton_sendPicture = new QPushButton(centralWidget);
         pushButton_sendPicture->setObjectName(QString::fromUtf8("pushButton_sendPicture"));
@@ -217,6 +212,11 @@ public:
 
         gridLayout_2->addWidget(pushButtonGetUsers, 0, 1, 1, 1);
 
+        img_label = new QLabel(centralWidget);
+        img_label->setObjectName(QString::fromUtf8("img_label"));
+
+        gridLayout_2->addWidget(img_label, 15, 0, 1, 1);
+
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
@@ -233,7 +233,6 @@ public:
         actionchange_resolution->setText(QApplication::translate("MainWindow", "change resolution", nullptr));
         pushButton_r2->setText(QApplication::translate("MainWindow", "960x540", nullptr));
         pushButton_r6->setText(QApplication::translate("MainWindow", "160x120", nullptr));
-        img_label->setText(QString());
         pushButton_sendPicture->setText(QApplication::translate("MainWindow", "SendPicture", nullptr));
         pushButton_r1->setText(QApplication::translate("MainWindow", "1280x720", nullptr));
         pushButton_r4->setText(QApplication::translate("MainWindow", "640x360", nullptr));
@@ -252,6 +251,7 @@ public:
         label->setText(QApplication::translate("MainWindow", "your name:", nullptr));
         pushButton_apply->setText(QApplication::translate("MainWindow", "apply", nullptr));
         pushButtonGetUsers->setText(QApplication::translate("MainWindow", "Get All users", nullptr));
+        img_label->setText(QString());
     } // retranslateUi
 
 };

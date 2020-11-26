@@ -5,6 +5,63 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
+    QAudioFormat format;
+    format.setChannelCount(1);
+    format.setSampleRate(10000);
+    format.setSampleSize(8);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
+
+    // QByteArray ba;
+    // QBuffer bu(&ba);
+
+    // buff->open("123.mp3");
+    // QIODevice* buff = new QIODevice(this);
+    // QIODevice* buff2 = new QIODevice(this);
+
+    // QIODevice *buff2 = new QIODevice();
+
+    buff2 = new QBuffer(this);
+
+    buff2->open(QIODevice::ReadWrite);
+
+    // 
+
+
+    QAudioInput *audio = new QAudioInput(format, this);
+    QAudioOutput *AudioOutput = new QAudioOutput(format, this);
+    audio->setBufferSize(1024);
+    AudioOutput->setBufferSize(1024);
+    buff = audio->start();
+
+    // buff3 = buff2;
+    // buff2->open(QIODevice::ReadWrite);
+    // buff->open(QIODevice::ReadWrite);
+
+    // qDebug() << "how many" << buff2->write(buff->readAll()) << buff2->openMode();
+
+    AudioOutput->start(buff2);
+
+    // buff2->open(QIODevice::ReadWrite);    
+
+    // AudioOutput->s;
+    
+
+    
+    // audio->setNotifyInterval(50);
+
+    // connect(audio, &QAudioInput::notify, this, &MainWindow::readSound);
+
+    
+    // qDebug() << buff->openMode() << buff2->openMode();
+
+    // QThread::sleep (5);
+
+    // audio->stop();
+
+    // qDebug() << bu.readAll();
+
     // qDebug() << QCameraImageCapture::
 
     ui->pushButton_disconnect->setVisible(false);
@@ -17,6 +74,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     imageCapture = new QCameraImageCapture(camera);
 
     timer->setInterval(50);
+
+    connect(timer, &QTimer::timeout, this, &MainWindow::readSound);
     
     
 
@@ -25,7 +84,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect (timer, &QTimer::timeout, this, &MainWindow::SendFrame);
 
     connect (imageCapture, &QCameraImageCapture::imageCaptured, this, &MainWindow::getImage);
-
     // connect (ui->pushButton_sendPicture, &QPushButton::clicked, this, &MainWindow::on_pushButton_sendPicture_clicked);
 
     client = new ClientStuff("localhost", 6547);
@@ -149,6 +207,12 @@ void MainWindow::receivedJson(QJsonObject message)
         ui->img_label->setPixmap(QPixmap::fromImage(im));
         ui->img_label->setScaledContents(true);
     }
+    else if (message["type"].toString() == "sound"){
+        buff2->close();
+        buff2->setData(QByteArray::fromBase64(message["data"].toString().toUtf8()));
+        buff2->open(QIODevice::ReadOnly);
+        qDebug() << "sound with size" << QByteArray::fromBase64(message["data"].toString().toUtf8()).size() << "recieved";
+    }
 }
 
 void MainWindow::gotError(QAbstractSocket::SocketError err)
@@ -181,7 +245,14 @@ void MainWindow::on_pushButton_connect_clicked()
     client->connect2host();
     name = ui->lineEdit->text();
     withWho = ui->lineEdit_2->text();
+    // qDebug() << "playing";
+    // QByteArray data = buff->readAll();
+    // QIODevice* temp;
+    // temp->write(data);
     
+    // AudioOutput->start(temp);
+    // AudioOutput->suspend();
+    // qDebug() << "stopping";
 }
 
 void MainWindow::on_pushButton_send_clicked()
@@ -284,6 +355,26 @@ void MainWindow::getImage(int id, const QImage& img){
     message["name"] = ui->lineEdit->text();
     message["dialogWith"] = ui->lineEdit_2->text();
     message["img"] = imgBase64;
+
+
+    // AudioOutput->suspend();
+
+    // QByteArray temp = buff->readAll();
+    // buff2->write(temp);
+    // qDebug() << "size of sound" << temp.size();
+
+
+    // AudioOutput->resume();
+
+    // qDebug() << "playing";
+    // QByteArray data = buff->readAll();
+    // qDebug() << data << "\n-------------------------------------\n";
+    // QBuffer* temp;
+    // temp->write(data);
+    
+    // AudioOutput->start(temp);
+    // AudioOutput->stop();
+    // qDebug() << "stopping";
     // message["name"] = ui->lineEdit->text();
     // message["dialogWith"] = ui->lineEdit_2->text();
     // message["friend"] = withWho;   
@@ -309,8 +400,63 @@ void MainWindow::getImage(int id, const QImage& img){
 void MainWindow::on_pushButton_sendPicture_clicked(){
     // 
     // QThread::sleep(0.5);
+    // QAudioFormat format;
+    // format.setChannelCount(1);
+    // format.setSampleRate(10000);
+    // format.setSampleSize(8);
+    // format.setCodec("audio/pcm");
+    // format.setByteOrder(QAudioFormat::LittleEndian);
+    // format.setSampleType(QAudioFormat::UnSignedInt);
+
+    // // QByteArray ba;
+    // // QBuffer bu(&ba);
+
+    // // buff->open("123.mp3");
+    // // QIODevice* buff = new QIODevice(this);
+    // // QIODevice* buff2 = new QIODevice(this);
+
+    // // QIODevice *buff2 = new QIODevice();
+
+    // buff2 = new QBuffer(this);
+
+    // buff2->open(QIODevice::ReadWrite);
+
+    // // 
+
+
+    // QAudioInput *audio = new QAudioInput(format, this);
+    // QAudioOutput *AudioOutput = new QAudioOutput(format, this);
+    // audio->setBufferSize(1024);
+    // AudioOutput->setBufferSize(1024);
+    // buff = audio->start();
+
+    // // buff3 = buff2;
+    // // buff2->open(QIODevice::ReadWrite);
+    // // buff->open(QIODevice::ReadWrite);
+
+    // // qDebug() << "how many" << buff2->write(buff->readAll()) << buff2->openMode();
+
+    // AudioOutput->start(buff2);
+
+    // // buff2->open(QIODevice::ReadWrite);    
+
+    // // AudioOutput->s;
+    
+
+    // connect(buff, &QIODevice::readyRead, this, &MainWindow::readSound);
+    // // audio->setNotifyInterval(50);
+
+    // // connect(audio, &QAudioInput::notify, this, &MainWindow::readSound);
+
+    
+    // // qDebug() << buff->openMode() << buff2->openMode();
+
+
+
     if (!timer->isActive()) {
         timer->start();
+        // qDebug() << "!23";
+        
         // QCameraViewfinderSettings viewfinderSettings;
         viewfinderSettings.setResolution(320, 240);
 
@@ -323,18 +469,20 @@ void MainWindow::on_pushButton_sendPicture_clicked(){
         imageCapture->setCaptureDestination(QCameraImageCapture::CaptureToBuffer);
 
         camera->start();
+
     }
     else{
         timer->stop();
         camera->stop();
+        AudioOutput->stop();
     } 
 }
 
 void MainWindow::on_pushButton_r1_clicked(){
     viewfinderSettings.setResolution(1280, 720);
 
-    camera->setViewfinder(viewfinder);
-    // camera->setViewfinderSettings(viewfinderSettings);
+    // camera->setViewfinder(viewfinder);
+    camera->setViewfinderSettings(viewfinderSettings);
 }
 
 void MainWindow::on_pushButton_r2_clicked(){
@@ -385,4 +533,48 @@ void MainWindow::SendFrame(){
         imageCapture->capture("temp");
         camera->unlock();
     }
+}
+
+void MainWindow::readSound(){
+
+    QByteArray temp = buff->readAll();
+    qDebug() << "sound size" << temp.size();
+   
+    
+
+    QByteArray arrBlock;
+    QDataStream out(&arrBlock, QIODevice::WriteOnly);
+ 
+    QJsonObject message;
+
+    QString sound = temp.toBase64();
+    message["type"] = "sound";
+    message["name"] = ui->lineEdit->text();
+    message["dialogWith"] = ui->lineEdit_2->text();
+    message["data"] = sound;
+    // message["name"] = ui->lineEdit->text();
+    // message["dialogWith"] = ui->lineEdit_2->text();
+    // message["friend"] = withWho;   
+
+    // qDebug() << message;    
+    
+    out << quint16(0) << QJsonDocument(message).toJson(QJsonDocument::Compact);
+
+    out.device()->seek(0);
+    out << quint16(arrBlock.size() - sizeof(quint16));
+
+    client->tcpSocket->write(arrBlock);
+
+    // buff2->close();
+    // buff2->setData(temp);
+    // buff2->open(QIODevice::ReadOnly);
+
+
+    
+    // qDebug() << "new sound size" << buff2->data().size();
+    // buff2->write(temp);
+
+    
+
+    // AudioOutput->resume();
 }

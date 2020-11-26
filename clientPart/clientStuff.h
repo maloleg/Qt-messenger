@@ -21,6 +21,7 @@ public:
     ClientStuff(const QString hostAddress, int portVal, QObject *parent = 0);
 
     QTcpSocket *tcpSocket;
+    QTcpSocket *soundSocket;
     bool getStatus();
     void setOwnId();
     void setFriendSocket();

@@ -6,6 +6,9 @@
 #include <QPixmap>
 #include <QBuffer>
 #include <QThread>
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <QAudioRecorder>
 
 
 namespace Ui { class MainWindow; }
@@ -40,6 +43,8 @@ private slots:
     void getImage(int id, const QImage& image);
     void SendFrame();
 
+    void readSound();
+
 private:
     Ui::MainWindow *ui;
     ClientStuff *client;
@@ -49,7 +54,12 @@ private:
     QCameraViewfinder* viewfinder;
     QCameraImageCapture* imageCapture;
     QTimer* timer;
+    QAudioRecorder* audioRecorder;
+    QAudioOutput* AudioOutput;
     int quality = 25;
+    QIODevice* buff;
+    QBuffer* buff2;
+    // QIODevice* buff3;
     QCameraViewfinderSettings viewfinderSettings;
 };
 

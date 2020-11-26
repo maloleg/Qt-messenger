@@ -29,13 +29,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QLabel" name="img_label">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QPushButton" name="pushButton_sendPicture">
       <property name="text">
@@ -227,6 +220,13 @@
      <widget class="QPushButton" name="pushButtonGetUsers">
       <property name="text">
        <string>Get All users</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="0">
+     <widget class="QLabel" name="img_label">
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </item>

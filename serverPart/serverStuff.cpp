@@ -88,12 +88,12 @@ void ServerStuff::readClient()
         // message;
         // qDebug() << clientSocket->bytesAvailable();
         // if (clientSocket->bytesAvailable() > )
-         while (clientSocket->bytesAvailable() > 0){
+         // while (clientSocket->bytesAvailable() > 0){
             qDebug() << "bytes to read: " << clientSocket->bytesAvailable() <<  m_nNextBlockSize << byteMessage.size();
             /*(if (clientSocket->waitForReadyRead()) */in >> byteMessage;
             // if (in.commitTransaction()){}
 
-         }
+         // }
             // qDebug
 
         qDebug() << byteMessage.size();
@@ -206,16 +206,6 @@ void ServerStuff::handleJson(QJsonObject message, QTcpSocket* clientSocket){
         }
     }
     else if (message["type"].toString() == "image"){
-
-        // QByteArray br = message["img"].toString().toUtf8();
-
-        // qDebug() << br << "<- base64";
-
-        // if (sendToClient(pairs[message["name"].toString()], message) == -1){
-        //                 qDebug() << "Some error occured";
-        //                 // return;
-        //             }
-        // qDebug() << message;
         if (names.contains(message["name"].toString()) && names.contains(message["dialogWith"].toString())){
             if (message["name"].toString() != message["dialogWith"].toString()){
                 // emit gotNewMesssage(message["name"].toString() + " connected to " + message["dialogWith"].toString());
@@ -231,13 +221,35 @@ void ServerStuff::handleJson(QJsonObject message, QTcpSocket* clientSocket){
                         qDebug() << "Some error occured";
                         // return;
                     }
-                    // return;
-             
+                    // return;    
                 }
                 // emit connectByNames(message["name"].toString(), message["dialogWith"].toString());
             }
-            else emit gotNewMesssage("you cannot connect to yourself");
-            
+            else emit gotNewMesssage("you cannot connect to yourself");   
+        }
+        else emit gotNewMesssage("No such user");
+    }
+    else if (message["type"].toString() == "sound"){
+        if (names.contains(message["name"].toString()) && names.contains(message["dialogWith"].toString())){
+            if (message["name"].toString() != message["dialogWith"].toString()){
+                // emit gotNewMesssage(message["name"].toString() + " connected to " + message["dialogWith"].toString());
+                //connect them
+                if (isConnected(message["name"].toString(), message["dialogWith"].toString())){       
+                    // qDebug() << names << names[i] << message["dialogWith"].toString();
+                    // qDebug() << pairs;
+                    qDebug() << "Image recieved";
+                    // temp["type"] = "image";
+                    // temp["img"] = message["img"];
+                    emit gotNewMesssage(message["name"].toString() + " sending [" + message["text"].toString() + "] to " + message["dialogWith"].toString());
+                    if (sendToClient(pairs[message["dialogWith"].toString()], message) == -1){
+                        qDebug() << "Some error occured";
+                        // return;
+                    }
+                    // return;    
+                }
+                // emit connectByNames(message["name"].toString(), message["dialogWith"].toString());
+            }
+            else emit gotNewMesssage("you cannot connect to yourself");   
         }
         else emit gotNewMesssage("No such user");
     }
